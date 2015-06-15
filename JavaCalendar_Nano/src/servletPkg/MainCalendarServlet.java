@@ -36,12 +36,12 @@ public class MainCalendarServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		Dbase dbase=new Dbase();
 		
-		Timestamp startStamp = Timestamp.valueOf("2014-01-01 00:00:00.0");
-		java.util.Date endDate=new java.util.Date();				//
+		Timestamp startStamp = Timestamp.valueOf("2014-01-01 00:00:00.0");	//hardcode time for testing
+		java.util.Date endDate=new java.util.Date();				
 		Timestamp endStamp = new Timestamp(endDate.getTime());
 		
 		ArrayList<Event> eventsCollection=new ArrayList<Event>();
-		eventsCollection=dbase.getEvents(startStamp,endStamp ,2 );
+		eventsCollection=dbase.getEvents(startStamp,endStamp ,2 );	//get event data from database
 		
 		request.setAttribute("eventList", eventsCollection);
 		request.getRequestDispatcher("mainCalendar.jsp").forward(request, response);
