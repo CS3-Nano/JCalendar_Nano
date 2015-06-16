@@ -3,6 +3,8 @@ package dbmanager;
 
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DbConnection {
 	private static DbConnection instance=null;
@@ -22,4 +24,14 @@ public class DbConnection {
 		}
 		return instance;
 	} 
+	private boolean openConnection(){
+		try {
+			conn=DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 }
