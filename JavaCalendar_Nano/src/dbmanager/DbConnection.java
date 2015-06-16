@@ -53,5 +53,9 @@ public class DbConnection {
 			e.printStackTrace();
 		}
 	}
-	
+	public static void processExeptions(SQLException e){		// error handling
+		System.err.println("Error message :"+e.getMessage());
+		System.err.println("Error code "+e.getErrorCode());
+		System.err.println("SQL state "+e.getSQLState());
+	}
 }
