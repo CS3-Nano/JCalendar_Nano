@@ -33,5 +33,15 @@ public class DbConnection {
 			return false;
 		}
 	}
-	
+	public Connection getConnection(){
+		if(conn==null){
+			if(openConnection()){
+				System.out.println("connection opened");
+				return conn;
+			}else{
+				return null;
+			}
+		}
+		return conn;
+	}
 }
