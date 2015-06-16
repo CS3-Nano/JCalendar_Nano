@@ -1,6 +1,7 @@
 package dbmanager;
 
 
+
 import java.sql.Connection;
 
 public class DbConnection {
@@ -11,4 +12,14 @@ public class DbConnection {
 	private static final String CONN_STRING =
 			"jdbc:mysql://localhost/calendardb";
 	private Connection conn=null;
+	
+	private DbConnection() {			// private constructor 
+	}
+	
+	public static DbConnection getInstance() {		// singleton object for connection
+		if(instance==null){
+			instance=new DbConnection();
+		}
+		return instance;
+	} 
 }
