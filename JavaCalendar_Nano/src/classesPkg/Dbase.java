@@ -146,4 +146,38 @@ public class Dbase {
 		}
 		return tempEvntList;
 	}
+
+	public boolean setEvent(Event saveEvent) {
+		boolean flag=false;
+		if (openConnection()) {
+			try {
+				//quertString="SELECT * FROM eventstbl WHERE evnt_start>? AND evnt_end<?";
+				quertString="INSERT INTO eventstbl (evnt_start,evnt_end,evnt_descriptio,evnt_owner) "
+						+ "VALUES(?,?,?,?)";
+				stmt=conn.prepareStatement(quertString);
+				
+				stmt.setTimestamp(1, saveEvent.getStartDate());
+				stmt.setTimestamp(2, saveEvent.getEndDate());
+				stmt.setString(3, saveEvent.getDescription());
+				stmt.setInt(4, saveEvent.getOwner());
+					
+				if (stmt.execute()) {
+					flag=true;
+				} else {
+
+				}
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("error in query excecution!");
+				e.printStackTrace();
+			}
+			if (!closeConnection()) {
+				System.out.println("connection closing failed!,closeConnection() error");
+			}
+		} else {
+			System.out.println("database connection opening failed!,openConnection() error");
+		}
+		return flag;
+	}
 }
