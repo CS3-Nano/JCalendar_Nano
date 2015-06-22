@@ -11,11 +11,12 @@
 <script type="text/javascript" src="./jQuery/jquery-1.11.1.js"></script>
     <script type="text/javascript">
         $("document").ready(function() {
+        	//$("body").append("<p>The page just loaded!</p>");
             $("#btn").click(function() {
                     $(".event").animate({width: 400}, 300)
                     .animate({height: 300}, 400)
                     .animate({left: 200}, 500)
-                    .animate({top: "+=100", borderWidth: 10}, "slow")});
+                    .animate({top: "+=100", borderWidth: 10}, "slow")}); 
         });
     </script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -43,7 +44,7 @@
 					<%
 						for(Event ev:evList){
 							%>
-							<tr>
+							<tr onClick="location.href='addEvent.jsp?eID=<%=ev.getId() %>';">
 								<td><%=ev.getId() %></td>
 								<td><%=ev.getStartDate() %></td>
 								<td><%=ev.getEndDate() %></td>
@@ -65,7 +66,7 @@
 		if(evList!=null){
 			for(Event ev:evList){
 				%>
-					<div class="event" onClick="location.href='addEvent.jsp?eID=<%=ev.getId() %>';">						
+					<div class="event" onClick="location.href='addEvent.jsp?eID=<%=ev.getId() %>';" style="color:blue">						
 						<%=ev.getStartDate() %>
 						<%=ev.getEndDate() %>
 						<%=ev.getDescription() %>
@@ -73,7 +74,8 @@
 					</div>
 				<%
 			}
-		}
+						
+		}	
 	%>
 </body>
 </html>
