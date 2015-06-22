@@ -1,0 +1,13 @@
+@CHARSET "ISO-8859-1";
+#loginForm{
+	position:relative;
+	top:300px;
+	left: 800px;
+    width: 230px;
+    height: 100px;
+    margin: 10px;
+    padding: 10px;
+    background: #b3c8d0;
+    border: 1px solid black;
+    font-size: 13pt;
+}

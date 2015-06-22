@@ -4,21 +4,24 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./CSS/loginCSS.css">
+<title>Login</title>
 </head>
 <body>
-	<form action="LoginServlet" method="post">
-		<table>
-		<tr>
-			<td>Username:</td><td><input type="text" name="usrname"/></td>
-		</tr>
-		<tr>
-			<td>Password:</td><td><input type="password" name="pswrd"/></td>
-		</tr>
-		<tr>
-			<td><input type="submit" value="Log In"/></td>
-		</tr>
-		</table>
-	</form>	
+	<div id="loginForm">
+		<form action="LoginServlet" method="post">
+			<table>
+			<tr>
+				<td>Username:</td><td><input type="text" name="usrname"/></td>
+			</tr>
+			<tr>
+				<td>Password:</td><td><input type="password" name="pswrd"/></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="Log In"/></td>
+			</tr>
+			</table>
+		</form>	
+	</div>
 </body>
 </html>

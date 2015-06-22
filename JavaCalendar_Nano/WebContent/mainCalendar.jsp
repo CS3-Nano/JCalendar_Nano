@@ -7,6 +7,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="./CSS/mainCalendarStyles.css">
+<script type="text/javascript" src="./jQuery/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+        $("document").ready(function() {
+            $("#btn").click(function() {
+                    $(".event").animate({width: 400}, 300)
+                    .animate({height: 300}, 400)
+                    .animate({left: 200}, 500)
+                    .animate({top: "+=100", borderWidth: 10}, "slow")});
+        });
+    </script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
@@ -14,7 +25,7 @@
 	This is mainCalendar.jsp<br/>
 	get user id from session: "${usrID}"	<!-- used EL tag not scriplet tags -->
 	<form action="MainCalendarServlet" method="post">
-		<input type="submit" value="Show my events"/>
+		<input  id="btn" type="submit" value="Show my events"/>
 	</form>	
 	<%
 		@SuppressWarnings("unchecked")
@@ -48,6 +59,20 @@
 			%>
 				list is empty!
 			<%
+		}
+	%>
+	<%
+		if(evList!=null){
+			for(Event ev:evList){
+				%>
+					<div class="event" onClick="location.href='addEvent.jsp?eID=<%=ev.getId() %>';">						
+						<%=ev.getStartDate() %>
+						<%=ev.getEndDate() %>
+						<%=ev.getDescription() %>
+						<%=ev.getOwner() %>
+					</div>
+				<%
+			}
 		}
 	%>
 </body>
