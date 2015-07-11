@@ -1,0 +1,31 @@
+db name : calendardb
+username : teamnano
+password :nano
+
+CREATE TABLE `events` (
+ `evntID` int(8) NOT NULL AUTO_INCREMENT,
+ `evntStart` datetime NOT NULL,
+ `evntEnd` datetime NOT NULL,
+ `evntDesc` varchar(50) DEFAULT NULL,
+ `evntOwner` int(11) NOT NULL,
+ `eventRec` tinyint(1) DEFAULT NULL,
+ `prvcyStat` tinyint(1) DEFAULT NULL,
+ `priority` int(11) DEFAULT NULL,
+ PRIMARY KEY (`evntID`)
+);
+
+CREATE TABLE `login` (
+ `userID` int(11) NOT NULL,
+ `username` varchar(20) NOT NULL,
+ `passwrd` varchar(150) NOT NULL,
+ PRIMARY KEY (`userID`)
+);
+
+CREATE TABLE `users` (
+ `userID` int(11) NOT NULL AUTO_INCREMENT,
+ `userFName` varchar(30) NOT NULL,
+ `userLName` varchar(30) NOT NULL,
+ `userEmail` varchar(30) DEFAULT NULL,
+ `userContact` varchar(10) DEFAULT NULL,
+ PRIMARY KEY (`userID`)
+) ;
