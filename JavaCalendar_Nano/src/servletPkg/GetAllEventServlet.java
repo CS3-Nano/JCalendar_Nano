@@ -2,6 +2,7 @@ package servletPkg;
 
 import java.beans.Beans;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -34,6 +35,12 @@ public class GetAllEventServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		try {
+			EventMngr.readEvents();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ArrayList<beans.Event>allEvntList=new ArrayList<beans.Event>();
 		allEvntList=EventMngr.events;
 		

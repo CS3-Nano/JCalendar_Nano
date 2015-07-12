@@ -11,16 +11,15 @@
     'use strict';
     
     var $currentYear,$currentMonth,$currentDay,$numOfDaysOfCurrentMonth;
+    var $allEvents;
     
     $(document).ready(function(){
         /*$("#monthSelectorBtn").click(function(){
             alert("1");
         });*/     
-        
-        var $today=new Date();
-        $currentYear=$today.getFullYear();
-        $currentMonth=$today.getUTCMonth()+1; //getUTCMonth() returns 0-11 (Jan=0,feb=1,...)
-        $currentDay=$today.getUTCDate();
+        loadAllEvents();    //load all events into json object
+    
+        setTodayforCurrentDate();
         
         setDaysOfMonth($currentYear,$currentMonth);
         
@@ -28,6 +27,7 @@
         
         $("#monthSelectorBtn").click(function(){
             showMonthViewOnly();
+            populateMonthTable();
         });
 
         $("#weekSelectorBtn").click(function(){
@@ -48,6 +48,43 @@
         
     });  
     
+    function loadAllEvents(){
+        $.ajax({
+
+        url : "GetAllEventServlet",
+        dataType : 'json',
+        error : function() {
+
+            alert("Error Occured");
+        },
+        success : function(data) {
+            $allEvents=data;
+            /*              
+            $.each($allEvents,function(index))
+            var receivedData = [];
+            
+            $.each(data.jsonArray, function(index) {
+                $.each(data.jsonArray[index], function(key, value) {
+                    var point = [];
+
+                        point.push(key);
+                        point.push(value);
+                        receivedData.push(point);
+
+                    }); 
+            });
+            */
+        }
+        });
+    }
+    
+    function setTodayforCurrentDate(){
+        var $today=new Date();
+        $currentYear=$today.getFullYear();
+        $currentMonth=$today.getUTCMonth()+1; //getUTCMonth() returns 0-11 (Jan=0,feb=1,...)
+        $currentDay=$today.getUTCDate();
+    }
+    
     function hideAllViews(){
         $("#monthViewDiv").hide();
         $("#weekViewDiv").hide();
@@ -55,18 +92,21 @@
     }
     
     function showMonthViewOnly(){
+        $(".YearMonthDateHeaderText").text($currentYear+"-"+$currentMonth);
         $("#monthViewDiv").show();
         $("#weekViewDiv").hide();
         $("#dayViewDiv").hide();
     }
     
     function showWeekViewOnly(){
+        $(".YearMonthDateHeaderText").text($currentYear+"-"+$currentMonth);
         $("#monthViewDiv").hide();
         $("#weekViewDiv").show();
         $("#dayViewDiv").hide();
     }
     
     function showDayViewOnly(){
+        $(".YearMonthDateHeaderText").text($currentYear+"-"+$currentMonth);
         $("#monthViewDiv").hide();
         $("#weekViewDiv").hide();
         $("#dayViewDiv").show();
@@ -75,7 +115,7 @@
     function gotoLastMonth(){
         if($currentMonth===1){
             $currentYear--;
-            $currentMonth=11;
+            $currentMonth=12;
         }else{
             $currentMonth--;
         } 
@@ -95,32 +135,78 @@
     }
     
     function populateMonthTable(){
-        $("#YearMonthDateHeaderText").text($currentYear+"-"+$currentMonth);
-        
-        $.ajax({
+        $(".YearMonthDateHeaderText").text($currentYear+"-"+$currentMonth);
+        /*
+        $("#monthCalendarTable tr").each(function() {
 
-            url : "GetAllEventServlet",
-            dataType : 'json',
-            error : function() {
+            $('td', this).each(function () {
+                var ar=$(this).attr('id');
+                
+                $.each($allEvents,function(index,evnt){
+                    //console.log(evnt.endCal);
+                    //console.log("=========")
+                    
+                    if(evnt.startCal.dayOfMonth===$currentDay&&evnt.startCal.month+1===$currentMonth&&evnt.startCal.Year===$currentYear){
+                        $(this).append(evnt.evntDesc);
+                    }
+                }); 
+                
+                console.log($(this).attr('id'));
+                console.log("===============================");
+    
+                var value = $(this).find(":input").val();
+                var values = 100 - value + ', ' + value;
+                var ids;
+                
+                if (value > 0) {
+                    $(this).append(htmlPre + values + htmlPost);
+                }
+                
+             })
 
-                alert("Error Occured");
-            },
-            success : function(data) {
-                /*var receivedData = [];
-
-                $.each(data.jsonArray, function(index) {
-                    $.each(data.jsonArray[index], function(key, value) {
-                        var point = [];
-
-                            point.push(key);
-                            point.push(value);
-                            receivedData.push(point);
-
-                        }); 
-                });*/
-
-            }
         });
+        */
+        //================
+        $('#monthCalendarTable tr').each(function () {
+          $('td', this).each(function () {
+            //var tdElem=this;
+            //console.log($(tdElem).attr('id'));
+
+            var tdElem=this;
+              
+            $(tdElem).empty();  //clear table cell
+              
+            //console.log(tdElem);
+            //var ar = $(this).attr('id');
+            $.each($allEvents, function (index, evnt) {
+              //console.log(evnt.endCal);
+              //console.log(this);
+              //console.log(evnt);
+              //console.log(tdElem);
+              //console.log(evnt.startCal.dayOfMonth);
+              //console.log(evnt.startCal.month + 1);
+              //console.log($currentMonth);
+              //console.log(evnt.startCal.year);
+              //console.log($currentYear);             
+                
+              if (evnt.startCal.dayOfMonth == $(tdElem).attr('id') && evnt.startCal.month + 1 == $currentMonth && evnt.startCal.year == $currentYear) {
+                //$(this).append(evnt.evntDesc);
+                //console.log("==============");
+                //$(tdElem).empty();
+                $(tdElem).append(evnt.evntDesc);
+              }else{
+                  //$(tdElem).append(evnt.evntDesc);
+                  //$(tdElem).empty();
+                  //$(tdElem).append("");
+              }
+      
+            });
+
+          })
+        });
+        
+        //================
+        
     }
     
     function setDaysOfMonth(year,month){
@@ -137,9 +223,9 @@
 		<input id="daySelectorBtn" value="Day" type="button"> 
 	</div>
     <div id="monthViewDiv" class="viewDiv">
-        <div id="monthNavigationDiv">
-            <h class="YearMonthDateHeaderText"></h>
+        <div class="navigationDiv">            
             <input id="btnLastMonth" value="Last" type="button">
+            <h class="YearMonthDateHeaderText"></h>
             <input id="btnNextMonth" value="Next" type="button">
         </div>
         <table id="monthCalendarTable">
@@ -171,7 +257,7 @@
                 <td id="14"></td>
             </tr>
             <tr>
-                <td id="15"><div></div></td>
+                <td id="15"></td>
                 <td id="16"></td>
                 <td id="17"></td>
                 <td id="18"></td>
@@ -196,9 +282,9 @@
         </table>
     </div>
     <div id="weekViewDiv" class="viewDiv">
-        <div id="weekNavigationDiv">
-            <h class="YearMonthDateHeaderText"></h>
+        <div class="navigationDiv">            
             <input id="btnLastMonth" value="Last" type="button" id="btnMonthLast">
+            <h class="YearMonthDateHeaderText"></h>
             <input id="btnNextMonth" value="Next" type="button" id="btnMonthNext">
         </div>
         <table id="weekCalendarTable">
@@ -215,9 +301,9 @@
         </table>
     </div>
     <div id="dayViewDiv" class="viewDiv">
-        <div id="dayNavigationDiv">
-            <h class="YearMonthDateHeaderText"></h>
+        <div class="navigationDiv">            
             <input id="btnLastMonth" value="Last" type="button">
+            <h class="YearMonthDateHeaderText"></h>
             <input id="btnNextMonth" value="Next" type="button">
         </div>
         <div id="dayCalendar">
