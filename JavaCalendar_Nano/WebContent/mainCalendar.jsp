@@ -12,7 +12,7 @@
     <script type="text/javascript">
         $("document").ready(function() {
         	//$("body").append("<p>The page just loaded!</p>");
-            $("#btn").click(function() {
+            $("#btntttttt").click(function() {
                     $(".event").animate({width: 400}, 300)
                     .animate({height: 300}, 400)
                     .animate({left: 200}, 500)
@@ -23,59 +23,35 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 	This is mainCalendar.jsp<br/>
 	get user id from session: "${usrID}"	<!-- used EL tag not scriplet tags -->
+	
 	<form action="MainCalendarServlet" method="post">
 		<input  id="btn" type="submit" value="Show my events"/>
-	</form>	
+	</form>
+	
 	<%
 		@SuppressWarnings("unchecked")
-		ArrayList<Event> evList=(ArrayList<Event>)request.getAttribute("eventList");
+		ArrayList<Event> evList=(ArrayList<Event>)request.getAttribute("eventList");		
 		if(evList!=null){
-			%>
-				<table border="1px">
-					<tr>
-						<th>Event ID</th>
-						<th>Start at</th>
-						<th>End at</th>
-						<th>Description</th>
-						<th>Owner ID</th>
-					</tr>
-					<%
-						for(Event ev:evList){
-							%>
-							<tr onClick="location.href='addEvent.jsp?eID=<%=ev.getId() %>';">
-								<td><%=ev.getId() %></td>
-								<td><%=ev.getStartDate() %></td>
-								<td><%=ev.getEndDate() %></td>
-								<td><%=ev.getDescription() %></td>
-								<td><%=ev.getOwner() %></td>
-							</tr>
-							<%
-						}
-					%>
-				</table>
-			<%
-		}else{
-			%>
-				list is empty!
-			<%
-		}
-	%>
-	<%
-		if(evList!=null){
+			String a=(String)request.getAttribute("cMonTest");
+			//String b=(String)request.getAttribute("cYrTest");
 			for(Event ev:evList){
 				%>
-					<div class="event" onClick="location.href='addEvent.jsp?eID=<%=ev.getId() %>';" style="color:blue">						
-						<%=ev.getStartDate() %>
-						<%=ev.getEndDate() %>
-						<%=ev.getDescription() %>
-						<%=ev.getOwner() %>
+					<div class="event" onClick="location.href='addEvent.jsp?eID=<%=ev.getId() %>';" >						
+						<label class="eventAttributeLbl">Start:</label><%=ev.getStartDate() %><br>
+						<label class="eventAttributeLbl">End:</label><%=ev.getEndDate() %><br>
+						<label class="eventAttributeLbl">Description:</label><%=ev.getDescription() %><br>				
+						<label class="eventAttributeLbl">Owner ID:</label><%=ev.getOwner() %>
 					</div>
+					<%=a %>||
 				<%
 			}
 						
-		}	
+		}
+		
+		 
 	%>
 </body>
 </html>
