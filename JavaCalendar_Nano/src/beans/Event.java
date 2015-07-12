@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 
 
 
-public class Event {
+public class Event implements Comparable<Event>{
 	private int evntID;
 	private Timestamp evntStart;
 	private Timestamp evntEnd;
@@ -139,6 +139,12 @@ public class Event {
 		System.out.println(cal.get(Calendar.YEAR)+" "+cal.get(Calendar.MONTH)+" "+cal.get(Calendar.DAY_OF_MONTH)+
 				" "+cal.get(Calendar.HOUR_OF_DAY)+" "+cal.get(Calendar.MINUTE)
 				);
+	}
+
+	@Override
+	public int compareTo(Event arg0) {
+		return startCal.compareTo(arg0.getStart());
+		
 	}
 		
 }
