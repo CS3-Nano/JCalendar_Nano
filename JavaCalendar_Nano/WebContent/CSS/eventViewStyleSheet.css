@@ -57,6 +57,7 @@
     width: 100%;
     top: 30px;
     position: relative;
+    table-layout: fixed;
 }
 
 #monthCalendarTable th ,#weekCalendarTable th{
@@ -72,4 +73,32 @@
     font-family: sans-serif;
     border: 1px solid black;
     padding: 15px;  
+}
+
+.evntDivTag {
+    font-size: 15px;
+    background-color: #ff8000;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-family: comic sans ms;
+    font-style: italic;
+}
+
+.eventPopupDiv{
+    font-size: 13px;
+    font-weight: normal;
+    position: absolute;
+    background-color: #d27cff;
+    border-top-left-radius: -30px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    width: auto;
+    height: auto;
+    text-decoration-color: chocolate;
+    text-align: left;
+}
+
+.popDivHeader{
+    font-weight: bold;
 }

@@ -27,6 +27,7 @@
         
         $("#monthSelectorBtn").click(function(){
             showMonthViewOnly();
+            $currentDay=1;  //set month to 1/beginig on ech view selection click
             populateMonthTable();
         });
 
@@ -83,6 +84,11 @@
         $currentYear=$today.getFullYear();
         $currentMonth=$today.getUTCMonth()+1; //getUTCMonth() returns 0-11 (Jan=0,feb=1,...)
         $currentDay=$today.getUTCDate();
+    }
+    
+    function setDaysOfMonth(year,month){
+        var dObj=new Date(year,month,0);
+        $numOfDaysOfCurrentMonth=dObj.getDate();
     }
     
     function hideAllViews(){
@@ -193,7 +199,22 @@
                 //$(this).append(evnt.evntDesc);
                 //console.log("==============");
                 //$(tdElem).empty();
-                $(tdElem).append(evnt.evntDesc);
+                //$(tdElem).append(evnt.evntDesc);
+                var $evntDivTag=$("<div class=evntDivTag>"+evnt.evntDesc.toString()+"</div>");
+                $(tdElem).html($evntDivTag);
+ 
+                $($evntDivTag).hover(function(){
+                    //var tdCoordinates=$(tdElem).position();
+                    //popUpEventInfo(tdElem,evnt,/*tdCoordinates,*/$(tdElem).position().left,$(tdElem).position().top);
+                    //console.log("mousein")
+                    //$(".eventPopupDiv").show();
+                    popUpEventInfo($evntDivTag,evnt,/*tdCoordinates,*/$(tdElem).position().left,$(tdElem).position().top);
+                },function(){
+                    //console.log("mouseout");
+                    //popUpEventHide(tdElem);
+                    $(".eventPopupDiv").hide();
+                });
+                
               }else{
                   //$(tdElem).append(evnt.evntDesc);
                   //$(tdElem).empty();
@@ -206,12 +227,57 @@
         });
         
         //================
-        
     }
     
-    function setDaysOfMonth(year,month){
-        var dObj=new Date(year,month,0);
-        $numOfDaysOfCurrentMonth=dObj.getDate();
+    function popUpEventInfo(elem,event,/*coordinates*/xPos,yPos){
+        var $popupDiv=$('<div class="eventPopupDiv">'+
+                        '<label class="popDivHeader">Event Start at: </label>'+event.evntStart+'<br/>'+
+                        '<label class="popDivHeader">Event End at: </label>'+event.evntEnd+'<br/>'+
+                        '<label class="popDivHeader">Event Description: </label>'+event.evntDesc+'<br/>'+
+                        '</div>');
+        //alert("boom"+" "+event.evntDesc+";xPos="+xPos+";yPos="+yPos/*+coordinates.left*/);
+        $($popupDiv).css({"top":yPos-10,"left":xPos+135});
+        //$(elem).html($popupDiv);
+        $(elem).append($popupDiv);
+        //$(elem).show();
+    }
+    
+    function popUpEventHide(elem){
+        //$(".eventPopupDiv").remove();
+        $(".eventPopupDiv").hide();
+    }
+    
+    function gotoLastWeek(){
+        /*
+        if($currentMonth===1){
+            $currentYear--;
+            $currentMonth=12;
+        }else{
+            $currentMonth--;
+        } 
+        setDaysOfMonth($currentYear,$currentMonth);
+        populateMonthTable();
+        if(($currentDay-7)!<2){
+            
+        }
+        */
+    }
+    
+    function gotoNextWeek(){
+        /*
+            @Start
+                set current day to 1
+                declare another var weekEndDay=currentDay+7 *this is the boundary between these 2 vars can find
+                all event for this week
+                save currentDay=to weekEndDay
+            @Second step
+                set currentDay= to weekEndDay(means currentDay+7)
+                set weekEndDay=currentDay+7 *this is the boundary between these 2 vars can find
+                all event for this 2nd week
+            @ goes on until currentDay=28 or weekEndDay=35
+                when hits any above set month/year forward and day to 1
+                perform same task
+        */     
     }
     
 </script>
@@ -222,7 +288,8 @@
 		<input id="weekSelectorBtn" value="Week" type="button">
 		<input id="daySelectorBtn" value="Day" type="button"> 
 	</div>
-    <div id="monthViewDiv" class="viewDiv">
+    <div id="viewPanelDiv">
+        <div id="monthViewDiv" class="viewDiv">
         <div class="navigationDiv">            
             <input id="btnLastMonth" value="Last" type="button">
             <h class="YearMonthDateHeaderText"></h>
@@ -281,7 +348,7 @@
             </tr>          
         </table>
     </div>
-    <div id="weekViewDiv" class="viewDiv">
+        <div id="weekViewDiv" class="viewDiv">
         <div class="navigationDiv">            
             <input id="btnLastMonth" value="Last" type="button" id="btnMonthLast">
             <h class="YearMonthDateHeaderText"></h>
@@ -300,7 +367,7 @@
             </tr>
         </table>
     </div>
-    <div id="dayViewDiv" class="viewDiv">
+        <div id="dayViewDiv" class="viewDiv">
         <div class="navigationDiv">            
             <input id="btnLastMonth" value="Last" type="button">
             <h class="YearMonthDateHeaderText"></h>
@@ -308,6 +375,7 @@
         </div>
         <div id="dayCalendar">
         </div>
-    </div>    
+    </div> 
+    </div>
 </body>
 </html>
