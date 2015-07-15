@@ -38,7 +38,7 @@ public class MainCalendarServlet extends HttpServlet {
 		//String cMon,cYr;
 		
 		java.util.Calendar cal = java.util.Calendar.getInstance();
-		String cMon=(String)cal.get(java.util.Calendar.DAY_OF_MONTH);
+		String cMon=(String)cal.get(Calendar.DAY_OF_MONTH);
 		//cYr=(String)java.util.Calendar.YEAR; 
 		
 		Dbase dbase=new Dbase();
