@@ -46,4 +46,30 @@ public class EventService  {
 		System.out.println(upCmng.size());
 		return upCmng;
 	}
+	public ArrayList<Event> getEvntOfMonth(User usr,int yr,int mnth){
+		ArrayList<Event> mnthEvnts=new ArrayList<Event>();
+		try {
+			EventMngr.readEvents();
+			for (Event event : EventMngr.events) {
+				if(event.getEvntOwner()==usr.getUserID()){
+					if(event.getStart().get(Calendar.YEAR)==yr){
+						if(event.getStart().get(Calendar.MONTH)==mnth-1){
+							mnthEvnts.add(event);
+						}
+					}
+				}
+			}
+			return mnthEvnts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public ArrayList<Integer> getEventofMonthDates(User usr,int yr,int mnth){
+		ArrayList<Integer> evntDts=new ArrayList<Integer>();
+		for (Event event : getEvntOfMonth(usr, yr, mnth)) {
+			evntDts.add(event.getStart().get(Calendar.DATE));
+		}
+		return evntDts;
+	}
 }
