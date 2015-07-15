@@ -46,4 +46,17 @@ public class UsersService {
 		}
 		return insrt;		
 	}
+	public User getUserById(int id){
+		try {
+			UserMngr.readUsers();
+			for (User user : UserMngr.users) {
+				if(user.getUserID()==id){
+					return user;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
