@@ -170,6 +170,23 @@
     
     function populateMonthTable(){
         $(".YearMonthDateHeaderText").text($currentYear+"-"+$currentMonth);
+        
+        var monthFirstDayAt= (new Date($currentYear,$currentMonth-1,1)).getDay();//get this month's 1 at which day(0-sunday,1-monday,..,6-sat)
+        var headerArray=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; 
+        
+        var curr=monthFirstDayAt;
+        $('#monthCalendarTable tr').each(function () {
+          $('th', this).each(function () {
+              if(curr===6){
+                  $(this).html(headerArray[curr]);
+                  curr=0;
+              }else{
+                  $(this).html(headerArray[curr]);
+                  curr=curr+1;
+              }
+          });
+        });
+        
         /*
         $("#monthCalendarTable tr").each(function() {
 
@@ -304,7 +321,7 @@
         }else{
             $currentDay=$currentDay-7;
         }
-    }
+    } 
     
     function gotoNextWeek(){
         /*
