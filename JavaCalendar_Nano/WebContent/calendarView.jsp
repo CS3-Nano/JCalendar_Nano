@@ -19,7 +19,8 @@
         });*/     
         loadAllEvents();    //load all events into json object
     
-        setTodayforCurrentDate();
+        var $toDay=new Date();
+        setCurrentDate($toDay);
         
         setDaysOfMonth($currentYear,$currentMonth);
         
@@ -27,26 +28,51 @@
         
         $("#monthSelectorBtn").click(function(){
             showMonthViewOnly();
-            $currentDay=1;  //set month to 1/beginig on ech view selection click
+            $currentDay=0;  //set month to 1/beginig on ech view selection click
             populateMonthTable();
         });
 
         $("#weekSelectorBtn").click(function(){
             showWeekViewOnly();
+            $currentDay=0;
+            populateWeekTable();
         });
 
         $("#daySelectorBtn").click(function(){
             showDayViewOnly();
+            $currentDay=0;
+            populateDayTable();
         });
         
         $("#btnLastMonth").click(function(){
             gotoLastMonth();
+            populateMonthTable();
         });
         
         $("#btnNextMonth").click(function(){
             gotoNextMonth();
+            populateMonthTable();
         });
         
+        $("#btnLastWeek").click(function(){
+            gotoLastWeek();
+            populateWeekTable();
+        });
+        
+        $("#btnNextWeek").click(function(){
+            gotoNextWeek();
+            populateWeekTable();
+        });
+        
+        $("#btnLastDay").click(function(){
+            gotoLastDay();
+            populateDayTable();
+        });
+        
+        $("#btnNextDay").click(function(){
+            gotoNextDay();
+            populateDayTable();
+        });
     });  
     
     function loadAllEvents(){
@@ -79,8 +105,8 @@
         });
     }
     
-    function setTodayforCurrentDate(){
-        var $today=new Date();
+    function setCurrentDate($today){
+        //var $today=new Date();
         $currentYear=$today.getFullYear();
         $currentMonth=$today.getUTCMonth()+1; //getUTCMonth() returns 0-11 (Jan=0,feb=1,...)
         $currentDay=$today.getUTCDate();
@@ -126,7 +152,8 @@
             $currentMonth--;
         } 
         setDaysOfMonth($currentYear,$currentMonth);
-        populateMonthTable();
+        $currentDay=0;
+        //populateMonthTable();
     }
     
     function gotoNextMonth(){
@@ -137,7 +164,8 @@
             $currentMonth++;
         }
         setDaysOfMonth($currentYear,$currentMonth);
-        populateMonthTable();
+        $currentDay=0;
+        //populateMonthTable();
     }
     
     function populateMonthTable(){
@@ -185,6 +213,7 @@
             //console.log(tdElem);
             //var ar = $(this).attr('id');
             $.each($allEvents, function (index, evnt) {
+                /*
               //console.log(evnt.endCal);
               //console.log(this);
               //console.log(evnt);
@@ -194,20 +223,24 @@
               //console.log($currentMonth);
               //console.log(evnt.startCal.year);
               //console.log($currentYear);             
-                
+                */    
               if (evnt.startCal.dayOfMonth == $(tdElem).attr('id') && evnt.startCal.month + 1 == $currentMonth && evnt.startCal.year == $currentYear) {
+                  /*
                 //$(this).append(evnt.evntDesc);
                 //console.log("==============");
                 //$(tdElem).empty();
                 //$(tdElem).append(evnt.evntDesc);
+                */
                 var $evntDivTag=$("<div class=evntDivTag>"+evnt.evntDesc.toString()+"</div>");
                 $(tdElem).html($evntDivTag);
  
                 $($evntDivTag).hover(function(){
+                    /*
                     //var tdCoordinates=$(tdElem).position();
-                    //popUpEventInfo(tdElem,evnt,/*tdCoordinates,*/$(tdElem).position().left,$(tdElem).position().top);
-                    //console.log("mousein")
+                    //popUpEventInfo(tdElem,evnt,tdCoordinates,$(tdElem).position().left,$(tdElem).position().top);
+                    //console.log("mousein");
                     //$(".eventPopupDiv").show();
+                    */
                     popUpEventInfo($evntDivTag,evnt,/*tdCoordinates,*/$(tdElem).position().left,$(tdElem).position().top);
                 },function(){
                     //console.log("mouseout");
@@ -261,6 +294,16 @@
             
         }
         */
+        if($currentDay-7<0){
+            gotoLastMonth();
+            if($numOfDaysOfCurrentMonth>28){
+                $currentDay=28;
+            }else{
+                $currentDay=21;
+            }
+        }else{
+            $currentDay=$currentDay-7;
+        }
     }
     
     function gotoNextWeek(){
@@ -277,7 +320,83 @@
             @ goes on until currentDay=28 or weekEndDay=35
                 when hits any above set month/year forward and day to 1
                 perform same task
-        */     
+        */
+        
+        if($currentDay<28&&$currentDay+7<$numOfDaysOfCurrentMonth){
+            $currentDay=$currentDay+7;
+        }
+        else{
+            gotoNextMonth();
+        }
+    }
+    
+    function populateWeekTable(){
+        $(".YearMonthDateHeaderText").text($currentYear+"-"+$currentMonth+"-"+($currentDay+1));
+        //add table header
+        var myHeader='<tr>'+
+                        '<th></th>'+
+                        '<th>'+weekTableHeaderCreater($currentDay,1)+'</th>'+
+                        '<th>'+weekTableHeaderCreater($currentDay,2)+'</th>'+
+                        '<th>'+weekTableHeaderCreater($currentDay,3)+'</th>'+
+                        '<th>'+weekTableHeaderCreater($currentDay,4)+'</th>'+
+                        '<th>'+weekTableHeaderCreater($currentDay,5)+'</th>'+
+                        '<th>'+weekTableHeaderCreater($currentDay,6)+'</th>'+
+                        '<th>'+weekTableHeaderCreater($currentDay,7)+'</th>'+
+                    '</tr>';
+         $("#weekCalendarTable").html(myHeader);
+        
+        //add rows for 7 days
+        for(var i=0;i<25;i++){
+            var myRow = '<tr>'+
+                            '<td id="hourseCell">'+i+':00h</td>'+
+                            '<td id="'+($currentDay+1)+'-'+i+'"></td>'+
+                            '<td id="'+($currentDay+2)+'-'+i+'"></td>'+
+                            '<td id="'+($currentDay+3)+'-'+i+'"></td>'+
+                            '<td id="'+($currentDay+4)+'-'+i+'"></td>'+
+                            '<td id="'+($currentDay+5)+'-'+i+'"></td>'+
+                            '<td id="'+($currentDay+6)+'-'+i+'"></td>'+
+                            '<td id="'+($currentDay+7)+'-'+i+'"></td>'+
+                        '</tr>';
+            $("#weekCalendarTable tr:last").after(myRow); 
+        }
+        //============================================================================================
+        
+        $('#weekCalendarTable tr').each(function () {
+          $($('td').not("#hourseCell"), this).each(function () {
+            var tdElem=this;
+
+            $(tdElem).empty();  //clear table cell              
+            $.each($allEvents, function (index, evnt) {  
+
+              if ((evnt.startCal.dayOfMonth.toString()+"-"+evnt.startCal.hourOfDay.toString()) == $(tdElem).attr('id') && evnt.startCal.month + 1 == $currentMonth && evnt.startCal.year == $currentYear) {
+
+                var $evntDivTag=$("<div class=evntDivTag>"+evnt.evntDesc.toString()+"</div>");
+                $(tdElem).html($evntDivTag);
+
+                $($evntDivTag).hover(function(){
+
+                    popUpEventInfo($evntDivTag,evnt,$(tdElem).position().left,$(tdElem).position().top);
+                },function(){                   
+                    $(".eventPopupDiv").hide();
+                });
+
+              }else{                 
+              }
+
+            });
+
+          })
+        });
+        
+        //==============================================================================================
+    }
+    
+    function weekTableHeaderCreater($cDay,$add){
+        var headerText="";
+        if(($cDay+$add)<=$numOfDaysOfCurrentMonth){
+            headerText=$currentMonth.toString()+"-"+($cDay+$add).toString();
+        }
+        return headerText;
     }
     
 </script>
@@ -290,92 +409,94 @@
 	</div>
     <div id="viewPanelDiv">
         <div id="monthViewDiv" class="viewDiv">
-        <div class="navigationDiv">            
-            <input id="btnLastMonth" value="Last" type="button">
-            <h class="YearMonthDateHeaderText"></h>
-            <input id="btnNextMonth" value="Next" type="button">
+            <div class="navigationDiv">            
+                <input id="btnLastMonth" value="Last" type="button">
+                <h class="YearMonthDateHeaderText"></h>
+                <input id="btnNextMonth" value="Next" type="button">
+            </div>
+            <table id="monthCalendarTable">
+                <tr>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>            
+                <tr>
+                    <td id="1"></td>
+                    <td id="2"></td>
+                    <td id="3"></td>
+                    <td id="4"></td>
+                    <td id="5"></td>
+                    <td id="6"></td>
+                    <td id="7"></td>
+                </tr>
+                <tr>
+                    <td id="8"></td>
+                    <td id="9"></td>
+                    <td id="10"></td>
+                    <td id="11"></td>
+                    <td id="12"></td>
+                    <td id="13"></td>
+                    <td id="14"></td>
+                </tr>
+                <tr>
+                    <td id="15"></td>
+                    <td id="16"></td>
+                    <td id="17"></td>
+                    <td id="18"></td>
+                    <td id="19"></td>
+                    <td id="20"></td>
+                    <td id="21"></td>
+                </tr>
+                <tr>
+                    <td id="22"></td>
+                    <td id="23"></td>
+                    <td id="24"></td>
+                    <td id="25"></td>
+                    <td id="26"></td>
+                    <td id="27"></td>
+                    <td id="28"></td>
+                </tr>
+                <tr>
+                    <td id="29"></td>
+                    <td id="30"></td>
+                    <td id="31"></td>
+                </tr>          
+            </table>
         </div>
-        <table id="monthCalendarTable">
-            <tr>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-                <th>Sunday</th>
-            </tr>            
-            <tr>
-                <td id="1"></td>
-                <td id="2"></td>
-                <td id="3"></td>
-                <td id="4"></td>
-                <td id="5"></td>
-                <td id="6"></td>
-                <td id="7"></td>
-            </tr>
-            <tr>
-                <td id="8"></td>
-                <td id="9"></td>
-                <td id="10"></td>
-                <td id="11"></td>
-                <td id="12"></td>
-                <td id="13"></td>
-                <td id="14"></td>
-            </tr>
-            <tr>
-                <td id="15"></td>
-                <td id="16"></td>
-                <td id="17"></td>
-                <td id="18"></td>
-                <td id="19"></td>
-                <td id="20"></td>
-                <td id="21"></td>
-            </tr>
-            <tr>
-                <td id="22"></td>
-                <td id="23"></td>
-                <td id="24"></td>
-                <td id="25"></td>
-                <td id="26"></td>
-                <td id="27"></td>
-                <td id="28"></td>
-            </tr>
-            <tr>
-                <td id="29"></td>
-                <td id="30"></td>
-                <td id="31"></td>
-            </tr>          
-        </table>
-    </div>
         <div id="weekViewDiv" class="viewDiv">
-        <div class="navigationDiv">            
-            <input id="btnLastMonth" value="Last" type="button" id="btnMonthLast">
-            <h class="YearMonthDateHeaderText"></h>
-            <input id="btnNextMonth" value="Next" type="button" id="btnMonthNext">
+            <div class="navigationDiv">            
+                <input id="btnLastWeek" value="Last" type="button">
+                <h class="YearMonthDateHeaderText"></h>
+                <input id="btnNextWeek" value="Next" type="button">
+            </div>
+            <table id="weekCalendarTable">
+                <!--
+                <tr>
+                    <th id="columnHeader"></th>
+                    <th id="columnHeader1"></th>
+                    <th id="columnHeader2"></th>
+                    <th id="columnHeader3"></th>
+                    <th id="columnHeader4"></th>
+                    <th id="columnHeader5"></th>
+                    <th id="columnHeader6"></th>
+                    <th id="columnHeader7"></th>
+                </tr>
+                -->
+            </table>
         </div>
-        <table id="weekCalendarTable">
-            <tr>
-                <th></th>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-                <th>Sunday</th>
-            </tr>
-        </table>
-    </div>
         <div id="dayViewDiv" class="viewDiv">
-        <div class="navigationDiv">            
-            <input id="btnLastMonth" value="Last" type="button">
-            <h class="YearMonthDateHeaderText"></h>
-            <input id="btnNextMonth" value="Next" type="button">
-        </div>
-        <div id="dayCalendar">
-        </div>
-    </div> 
+            <div class="navigationDiv">            
+                <input id="btnLastDay" value="Last" type="button">
+                <h class="YearMonthDateHeaderText"></h>
+                <input id="btnNextDay" value="Next" type="button">
+            </div>
+            <table id="dayCalendarTable">
+            </table>
+        </div> 
     </div>
 </body>
 </html>
