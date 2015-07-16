@@ -227,6 +227,16 @@
               
             $(tdElem).empty();  //clear table cell
               
+            var dayNum=$(tdElem).attr('id');
+              
+            if(dayNum<=$numOfDaysOfCurrentMonth){
+                var monthCalDayLabel=$('<label class="monthTableDayLbl">'+dayNum+'</label>');
+                $(tdElem).html(monthCalDayLabel);
+                $(tdElem).show();
+            }else{
+                $(tdElem).hide();
+            }
+            
             //console.log(tdElem);
             //var ar = $(this).attr('id');
             $.each($allEvents, function (index, evnt) {
@@ -240,7 +250,8 @@
               //console.log($currentMonth);
               //console.log(evnt.startCal.year);
               //console.log($currentYear);             
-                */    
+                */ 
+                
               if (evnt.startCal.dayOfMonth == $(tdElem).attr('id') && evnt.startCal.month + 1 == $currentMonth && evnt.startCal.year == $currentYear) {
                   /*
                 //$(this).append(evnt.evntDesc);
@@ -249,8 +260,12 @@
                 //$(tdElem).append(evnt.evntDesc);
                 */
                 var $evntDivTag=$("<div class=evntDivTag>"+evnt.evntDesc.toString()+"</div>");
-                $(tdElem).html($evntDivTag);
- 
+                /*var $evntDivTag=$("<div class=evntDivTag>"+evnt.evntDesc.toString()+"<label class='monthTableDayLbl'>"+dayNum+"</label>"+"</div>");*/ 
+                //var $dayLabel=$("<label class='monthTableDayLbl'>"+dayNum+"</label>");
+                  
+                $(tdElem).append($evntDivTag);  //.html
+                //$(tdElem).append($dayLabel);
+                  
                 $($evntDivTag).hover(function(){
                     /*
                     //var tdCoordinates=$(tdElem).position();
@@ -388,7 +403,7 @@
               if ((evnt.startCal.dayOfMonth.toString()+"-"+evnt.startCal.hourOfDay.toString()) == $(tdElem).attr('id') && evnt.startCal.month + 1 == $currentMonth && evnt.startCal.year == $currentYear) {
 
                 var $evntDivTag=$("<div class=evntDivTag>"+evnt.evntDesc.toString()+"</div>");
-                $(tdElem).html($evntDivTag);
+                $(tdElem).append($evntDivTag);
 
                 $($evntDivTag).hover(function(){
 

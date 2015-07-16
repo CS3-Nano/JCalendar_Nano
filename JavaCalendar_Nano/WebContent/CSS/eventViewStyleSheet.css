@@ -51,7 +51,7 @@
     border-spacing: 5px;
     padding: 5px;
     border-style:solid;
-    text-align: center;
+    /*text-align: center;*/
     border: 1 ;
     border-collapse:separate;
     width: 100%;
@@ -77,11 +77,13 @@
 
 .evntDivTag {
     font-size: 15px;
+    text-align: center;
     background-color: #ff8000;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
     font-family: comic sans ms;
     font-style: italic;
+    margin-bottom: 3px;
 }
 
 .eventPopupDiv{
@@ -101,4 +103,12 @@
 
 .popDivHeader{
     font-weight: bold;
+}
+
+.monthTableDayLbl{
+    font-size: 15px;
+    font-style: italic;
+    position: relative;
+    text-align: right;
+    top: -5px;
 }
