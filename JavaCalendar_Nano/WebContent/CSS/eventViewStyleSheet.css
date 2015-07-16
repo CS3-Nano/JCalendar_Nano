@@ -47,7 +47,7 @@
     border: 5px solid #01ff80;
 }
 
-#monthCalendarTable,#weekCalendarTable {
+#monthCalendarTable,#weekCalendarTable,#dayCalendarTable {
     border-spacing: 5px;
     padding: 5px;
     border-style:solid;
@@ -60,14 +60,14 @@
     table-layout: fixed;
 }
 
-#monthCalendarTable th ,#weekCalendarTable th{
+#monthCalendarTable th ,#weekCalendarTable th,#dayCalendarTable th{
     font-size: 20px;
     background-color:forestgreen;
     border: 1px solid #000;
     padding: 10px;  
 }
 
-#monthCalendarTable td,#weekCalendarTable td{
+#monthCalendarTable td,#weekCalendarTable td,#dayCalendarTable td{
     height: 30px;
     font-size: 20px;
     font-family: sans-serif;

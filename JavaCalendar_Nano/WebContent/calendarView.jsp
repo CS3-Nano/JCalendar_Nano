@@ -28,7 +28,7 @@
         
         $("#monthSelectorBtn").click(function(){
             showMonthViewOnly();
-            $currentDay=0;  //set month to 1/beginig on ech view selection click
+            $currentDay=0;  //set month to 0/beginig on ech view selection click
             populateMonthTable();
         });
 
@@ -391,13 +391,29 @@
                         '</tr>';
             $("#weekCalendarTable tr:last").after(myRow); 
         }
-        //============================================================================================
+        //============================================================================================             
         
         $('#weekCalendarTable tr').each(function () {
           $($('td').not("#hourseCell"), this).each(function () {
             var tdElem=this;
 
-            $(tdElem).empty();  //clear table cell              
+            $(tdElem).empty();  //clear table cell 
+            //=============
+              //var cellKey=$(tdElem).attr('id');
+              //var cellKeyDayPart=$(tdElem).attr('id').substr($(tdElem).attr('id').indexOf("-")+1);
+              //console.log("cellKeyPart="+cellKeyDayPart+";numOfDays="+$numOfDaysOfCurrentMonth);
+              /*
+            if(cellKeyDayPart<=$numOfDaysOfCurrentMonth){
+                //var monthCalDayLabel=$('<label class="monthTableDayLbl">'+dayNum+'</label>');
+                //$(tdElem).html(monthCalDayLabel);
+                console.log("cellKeyPart="+cellKeyDayPart+";$numOfDays="+$numOfDaysOfCurrentMonth);
+                $(tdElem).show();
+            }else{
+                $(tdElem).hide();
+            }*/
+              //console.log("cell");
+            //=============  
+              
             $.each($allEvents, function (index, evnt) {  
 
               if ((evnt.startCal.dayOfMonth.toString()+"-"+evnt.startCal.hourOfDay.toString()) == $(tdElem).attr('id') && evnt.startCal.month + 1 == $currentMonth && evnt.startCal.year == $currentYear) {
@@ -429,6 +445,86 @@
             headerText=$currentMonth.toString()+"-"+($cDay+$add).toString();
         }
         return headerText;
+    }
+    
+    function gotoLastDay(){
+        if($currentDay==0){
+            gotoLastMonth();
+            $currentDay=$numOfDaysOfCurrentMonth-1;
+        }else{
+            $currentDay=$currentDay-1;
+        }
+    }
+    
+    function gotoNextDay(){
+        if(($currentDay+1)==$numOfDaysOfCurrentMonth){
+            gotoNextMonth();
+        }else{
+            $currentDay=$currentDay+1;
+        }
+    }
+    
+    function populateDayTable(){
+        //============================================================================================
+        $(".YearMonthDateHeaderText").text($currentYear+"-"+$currentMonth+"-"+($currentDay+1));
+        //add table header
+        var myHeader='<tr>'+
+                        '<th>Hour</th>'+
+                        '<th> Day:'+weekTableHeaderCreater($currentDay,1)+'</th>'+
+                    '</tr>';
+         $("#dayCalendarTable").html(myHeader);
+        
+        //add rows for 7 days
+        for(var i=0;i<25;i++){
+            var myRow = '<tr>'+
+                            '<td id="dayTblhourseCell">'+i+':00h</td>'+
+                            '<td id="'+i+'"></td>'+
+                        '</tr>';
+            $("#dayCalendarTable tr:last").after(myRow); 
+        }
+        //============================================================================================
+        
+        //============================================================================================
+         $('#dayCalendarTable tr').each(function () {
+          $($('td').not("#dayTblhourseCell"), this).each(function () {
+            var tdElem=this;
+              
+            $(tdElem).empty();  //clear table cell
+            /*  
+            var dayNum=$(tdElem).attr('id');
+              
+            if(dayNum<=$numOfDaysOfCurrentMonth){
+                var monthCalDayLabel=$('<label class="monthTableDayLbl">'+dayNum+'</label>');
+                $(tdElem).html(monthCalDayLabel);
+                $(tdElem).show();
+            }else{
+                $(tdElem).hide();
+            }
+            */
+            $.each($allEvents, function (index, evnt) {              
+                
+              if (evnt.startCal.hourOfDay == $(tdElem).attr('id') && evnt.startCal.dayOfMonth==$currentDay+1 && evnt.startCal.month + 1 == $currentMonth && evnt.startCal.year == $currentYear) {
+                  
+                var $evntDivTag=$("<div class=evntDivTag>"+evnt.evntDesc.toString()+"</div>");               
+                  
+                $(tdElem).append($evntDivTag);  //.html
+                  
+                $($evntDivTag).hover(function(){
+                    
+                    popUpEventInfo($evntDivTag,evnt,$(tdElem).position().left,$(tdElem).position().top);
+                },function(){                   
+                    $(".eventPopupDiv").hide();
+                });
+                
+              }else{
+                  
+              }
+      
+            });
+
+          })
+        });
+        //============================================================================================
     }
     
 </script>
