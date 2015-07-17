@@ -72,4 +72,12 @@ public class EventService  {
 		}
 		return evntDts;
 	}
+	public Event getEventById(int id){
+		for (Event event : EventMngr.events) {
+			if(event.getEvntID()==id){
+				return event;
+			}
+		}
+		return null;
+	}
 }
