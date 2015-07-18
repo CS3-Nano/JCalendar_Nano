@@ -401,12 +401,14 @@
             //=============
               //var cellKey=$(tdElem).attr('id');
               //var cellKeyDayPart=$(tdElem).attr('id').substr($(tdElem).attr('id').indexOf("-")+1);
+              //var cellKeySplitArray=$(tdElem).attr('id').split("-");
               //console.log("cellKeyPart="+cellKeyDayPart+";numOfDays="+$numOfDaysOfCurrentMonth);
-              /*
-            if(cellKeyDayPart<=$numOfDaysOfCurrentMonth){
+              //console.log("split[0]="+cellKeySplitArray[0]+";split[1]"+cellKeySplitArray[1]);
+              //console.log($(tdElem).attr('id'));
+            /*if(cellKeyDayPart<=$numOfDaysOfCurrentMonth){
                 //var monthCalDayLabel=$('<label class="monthTableDayLbl">'+dayNum+'</label>');
                 //$(tdElem).html(monthCalDayLabel);
-                console.log("cellKeyPart="+cellKeyDayPart+";$numOfDays="+$numOfDaysOfCurrentMonth);
+                //console.log("cellKeyPart="+cellKeyDayPart+";$numOfDays="+$numOfDaysOfCurrentMonth);
                 $(tdElem).show();
             }else{
                 $(tdElem).hide();
