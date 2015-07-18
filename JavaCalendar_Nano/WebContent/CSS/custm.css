@@ -1,0 +1,58 @@
+ input[type="radio"] {
+    text-align: center;
+    margin-left: 50px;
+    }
+    select {
+        width: 100px;
+        margin-left: 10px
+    }
+    .spanlevel{
+        color: aqua;
+        line-height: 200%;
+        
+        }
+    .option-h1 {
+        background-color: darkorange;
+    }
+    .option-h2 {
+        background-color: darksalmon;
+    }
+    .option-h3 {
+        background-color: firebrick;
+    }
+    .option-h4 {
+        background-color: deeppink;
+    }
+    .option-h5 {
+        background-color: darkgoldenrod;
+    }
+     .option-m1 {
+        background-color: darkcyan;
+    }
+    .option-m2 {
+        background-color: dodgerblue; 
+    }
+    .option-m3 {
+        background-color: deepskyblue
+    }
+    .option-m4 {
+        background-color: aqua;
+    }
+    .option-m5 {
+        background-color: aquamarine;
+    }
+     .option-l1 {
+        background-color: darkslategray;
+    }
+    .option-l2 {
+        background-color: darkgrey;
+    }
+    .option-l3 {
+        background-color: antiquewhite;
+    }
+    .option-l4 {
+        background-color: bisque;
+    }
+    .option-l5 {
+        background-color: burlywood;
+    }
