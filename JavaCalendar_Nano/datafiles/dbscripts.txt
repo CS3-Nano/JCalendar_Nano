@@ -29,3 +29,14 @@ CREATE TABLE `users` (
  `userContact` varchar(10) DEFAULT NULL,
  PRIMARY KEY (`userID`)
 ) ;
+
+create table usrCstmiz(
+	custmID int not null primary key auto_increment,
+	userID int not null,
+	HighPClr varchar(15),
+	MediumPClr varchar(15),
+	LowPClr varchar(15),
+	prvtClr varchar(15),
+	Theam varchar(15),
+	avatar varchar(15),
+);
