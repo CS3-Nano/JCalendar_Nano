@@ -57,6 +57,11 @@ public class DbConnection {
 			e.printStackTrace();
 		}
 	}
+	public Connection testConnection() throws SQLException, ClassNotFoundException{
+		Class.forName("com.mysql.jdbc.Driver");
+		conn=DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
+		return conn;
+	}
 	public static void processExeptions(SQLException e){		// error handling
 		System.err.println("Error message :"+e.getMessage());
 		System.err.println("Error code "+e.getErrorCode());
