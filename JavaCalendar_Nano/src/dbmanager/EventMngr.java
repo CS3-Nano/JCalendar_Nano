@@ -94,7 +94,17 @@ public class EventMngr {
 			
 		}
 	}
-		
+	public static Event getEvntByid(int id) throws SQLException{
+		if(events==null){
+			readEvents();
+		}
+		for (Event event : events) {
+			if(event.getEvntID()==id){
+				return event;
+			}
+		}
+		return null;
+	}
 		
 	
 	private static void closeConectio(Statement stmt,ResultSet rs) throws SQLException{
