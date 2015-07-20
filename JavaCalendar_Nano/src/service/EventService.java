@@ -80,4 +80,15 @@ public class EventService  {
 		}
 		return null;
 	}
+	public ArrayList<Event> getEventofUser(int usrid){
+		ArrayList<Event> usrevnt=new ArrayList<Event>();
+		for (Event event : EventMngr.events) {
+			if(event.getEvntOwner()==usrid){
+				usrevnt.add(event);
+			}else if(event.isPrvcyStat()){
+				usrevnt.add(event);
+			}
+		}
+		return usrevnt;
+	}
 }
